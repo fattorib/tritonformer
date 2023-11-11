@@ -1,6 +1,6 @@
 # Tritonformer
 
-A GPT2-style transformer in Triton. Differentiable with forward + backward speeds matching that of a PyTorch transformer using cuBLAS kernels and [flash-attention](https://pytorch.org/docs/stable/generated/torch.nn.functional.scaled_dot_product_attention.html). 
+A GPT2-style transformer in Triton. Differentiable with forward + backward speeds matching that of a PyTorch transformer using cuBLAS kernels and [flash-attention](https://pytorch.org/docs/stable/generated/torch.nn.functional.scaled_dot_product_attention.html).
 
 Supports Autograd and Automatic Mixed Precision.
 
@@ -32,6 +32,28 @@ Kernels implemented:
 
 - LayerNorm `kernels/layernorm.py`
 - Softmax `kernels/softmax.py`
+
+## Use
+
+Clone repo and install requirements:
+
+```bash
+git clone https://github.com/fattorib/tritonformer.git
+pip install -r requirements.txt
+pip install -U --index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/Triton-Nightly/pypi/simple/ triton-nightly==2.1.0.dev20231014192330
+```
+
+PyTorch transformer models using Triton and cuBLAS kernels are provided under `transformer_triton.py` and `transformer_torch.py`. For example to use the model with Triton kernels, add:
+
+```python
+...
+from transformer_triton import Transformer, TransformerConfig
+config = TransformerConfig(...) # create config
+model = Transformer(config) # create model
+...
+```
+
+Train like you would any other model!
 
 ## Benchmarks
 
@@ -70,37 +92,14 @@ On a small 160M parameter model, end-to-end training[^1] with Tritonformer achie
 
 ![](imgs/training_comparison_160m.png)
 
-
-## Use
-
-Clone repo and install requirements:
-```bash 
-git clone https://github.com/fattorib/tritonformer.git
-pip install -r requirements.txt
-pip install -U --index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/Triton-Nightly/pypi/simple/ triton-nightly==2.1.0.dev20231014192330
-```
-PyTorch transformer models using Triton and cuBLAS kernels are provided under `transformer_triton.py` and `transformer_torch.py`. For example to use the model with Triton kernels, add:
-
-```python
-...
-from transformer_triton import Transformer, TransformerConfig
-config = TransformerConfig(...) # create config
-model = Transformer(config) # create model
-...
-```
-Train like you would any other model!
-
-
-
 ## Tests
 
-Tests are handled by PyTest. Run `pytest tritonformer/` to run all tests. **Note:** There are a lot of tests so running them all can take a while!
+Tests are handled by [PyTest](https://docs.pytest.org/en/7.4.x/). Run `pytest tritonformer/` to run all tests. **Note:** There are a lot of tests so running them all can take a while!
 
 ## Acknowledgments
 
 - Parts of the PyTorch transformer code were originally based off of [`zphang/minimal-opt`](https://github.com/zphang/minimal-opt)
 
 - Some earlier forward-pass kernels were written as I followed along through the [Triton Tutorials](https://triton-lang.org/main/getting-started/tutorials/index.html)
-
 
 [^1]: **Run parameters**: Dataset: MiniPile, Context: 2048 Tokens (Neox Tokenizer), Batch Size: 64, FP16 Autocast Enabled, RTX 3090
