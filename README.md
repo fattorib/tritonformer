@@ -106,7 +106,7 @@ Tests are handled by [PyTest](https://docs.pytest.org/en/7.4.x/). Run `pytest tr
 
 I'm currently happy with the state of this project but given more time, here are a few extensions I'd like to do:
 
-- [ ] The weight backward pass for matrix multiplication requires a reduction over the batch dimension after performing `bmm(activation.T, grad_output)`[^2]:. It should be possible to fuse this reduction into the matmul kernel!
+- [ ] The weight backward pass for matrix multiplication requires a reduction over the batch dimension after performing `bmm(activation.T, grad_output)`[^2]. It should be possible to fuse this reduction into the matmul kernel!
 - [ ] Indexing support in Triton is difficult. As such token and position embeddings use `nn.Embedding` instead of a custom kernel.
 - [ ] Extend Fused Attention to support [Flash Attention 2](https://arxiv.org/abs/2307.08691).
 
