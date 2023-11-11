@@ -7,7 +7,6 @@ from typing import List, Optional, Tuple
 
 import torch
 import torch.nn as nn
-from common import TransformerConfig, generate_alibi_mask
 from einops import rearrange
 
 import tritonformer.nn as tnn
@@ -76,6 +75,11 @@ def generate_alibi_mask(seq_len: int, num_heads: int) -> torch.Tensor:
     return alibi_mask
 
 
+# ---------------------
+# Weight Initialization
+# ---------------------
+
+
 def _weights_init(m, num_layers):
     if isinstance(m, (tnn.Linear)):
         m.weight.data.normal_(mean=0.0, std=0.02)
@@ -99,6 +103,11 @@ def _weights_init(m, num_layers):
 
         if "logits_out" in name and "weight" in name:
             p.data.zero_()
+
+
+# ------------------
+# Module Definitions
+# ------------------
 
 
 class CausalAttention(nn.Module):
