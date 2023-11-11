@@ -47,7 +47,7 @@ PyTorch transformer models using Triton and cuBLAS kernels are provided under `t
 
 ```python
 ...
-from transformer_triton import Transformer, TransformerConfig
+from transformer import Transformer, TransformerConfig
 config = TransformerConfig(...) # create config
 model = Transformer(config) # create model
 ...
