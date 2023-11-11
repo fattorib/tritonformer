@@ -60,7 +60,6 @@ time_s = start.elapsed_time(end) / 1e3
 |------------|---------|-----------------------|------------------|------------------------------------------------------|
 | 410M       | 2048    | 50.1719               | 50.2183          | `bs=4`,`use_linear_bias = False`,`attn_bias = False` |
 | 410M       | 4096    | 42.2310               | 45.5872          | `bs=2`,`use_linear_bias = False`,`attn_bias = False` |
-| 410M       | 4096    | 44.1165               | OOM              | `bs=4`,`use_linear_bias = False`,`attn_bias = False` |
 | 840M       | 2048    | 52.6596               | 52.2332          | `bs=2`,`use_linear_bias = False`,`attn_bias = False` |
 | 840M       | 4096    | 45.8857               | 48.4785          | `bs=1`,`use_linear_bias = False`,`attn_bias = False` |
 | 1.4B       | 2048    | 55.6311               | 55.8419          | `bs=2`,`use_linear_bias = False`,`attn_bias = False` |
@@ -68,6 +67,7 @@ time_s = start.elapsed_time(end) / 1e3
 ## Sample Loss Curves
 
 On a small 160M parameter model, end-to-end training[^1] with Tritonformer achieves pairity with the equivalent PyTorch model:
+
 ![](imgs/training_comparison_160m.png)
 
 
